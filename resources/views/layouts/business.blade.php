@@ -63,7 +63,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="/home" class="nav-link active">
+            <a href="/home" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -72,7 +72,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('jardines')}}" class="nav-link">
+            <a href="{{url('schools')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Jardines de Niños
