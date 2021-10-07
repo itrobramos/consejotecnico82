@@ -32,7 +32,7 @@ class SchoolController extends Controller
 
     public function create()
     {
-        return view('schools.create');
+        return view('schools.add');
     }
 
     public function store(Request $request)
@@ -45,12 +45,11 @@ class SchoolController extends Controller
 
         $school = new School();
         $school->name = $request->name;
-        $school->email = $request->email;
-        $school->phone = $request->phone;
-        
-        $school->business_name = $request->business_name;
-        $school->company = $request->company;
         $school->address = $request->address;
+        $school->phone = $request->phone;
+        $school->responsible = $request->responsible;
+        $school->email = $request->email;
+        $school->active = true;
         
         $school->save();
 
@@ -62,7 +61,7 @@ class SchoolController extends Controller
     public function edit($id)
     {
         $school = School::findOrFail($id);
-        return view('schools.edit',compact('client'));
+        return view('schools.edit',compact('school'));
     }
 
     public function update(Request $request, $id)
@@ -75,12 +74,11 @@ class SchoolController extends Controller
         $school = School::findOrFail($id);
 
         $school->name = $request->name;
-        $school->email = $request->email;
-        $school->phone = $request->phone;
-        
-        $school->business_name = $request->business_name;
-        $school->company = $request->company;
         $school->address = $request->address;
+        $school->phone = $request->phone;
+        $school->responsible = $request->responsible;
+        $school->email = $request->email;
+        $school->active = true;
        
         $school->save();
 
