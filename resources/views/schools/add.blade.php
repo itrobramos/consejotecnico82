@@ -15,7 +15,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Mis Fibras</li>
+                            <li class="breadcrumb-item active">Jardines de Niños</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -33,32 +33,69 @@
                         {{ csrf_field()}}
                         <div class="card-body">
 
-                            <div class="form-group">
-                                <label for="Nombre">Nombre</label>
-                                <input type="text" name="name" class="form-control">
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="Nombre">Nombre</label>
+                                </div>
+
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                    <input type="text" name="name" class="form-control">
+                                </div>                                
                             </div>
 
-                            <div class="form-group">
-                                <label for="Direccion">Direccion</label>
-                                <input type="text" name="address" class="form-control">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="Dirección">Dirección</label>
+                                </div>
+
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                    <input type="text" name="address" class="form-control">
+                                </div>                                
                             </div>
 
-                            <div class="form-group">
-                                <label for="Telefono">Teléfono</label>
-                                <input type="text" name="phone" class="form-control">
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="Telefono">Teléfono</label>
+                                </div>
+
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                    <input type="text" name="phone" class="form-control">
+                                </div>                                
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="Responsable">Responsable</label>
+                                </div>
+
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                    <input type="text" name="responsible" class="form-control">
+                                </div>                                
                             </div>
 
 
-                            <div class="form-group">
-                                <label for="Responsable">Responsable</label>
-                                <input type="text" name="responsible" class="form-control">
+                            <br>
+
+                            
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="Email">Email</label>
+                                </div>
+
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                    <input type="email" name="email" class="form-control">
+                                </div>                                
                             </div>
 
 
-                            <div class="form-group">
-                                <label for="Email">Email</label>
-                                <input type="email" name="email" class="form-control">
-                            </div>
 
                         </div>
                         <!-- /.card-body -->

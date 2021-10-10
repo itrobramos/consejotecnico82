@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Editar Jardín de niños</h1>
+                        <h1 class="m-0 text-dark">Agregar Formato</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a></li>
-                            <li class="breadcrumb-item active">Editar Jardín de niños</li>
+                            <li class="breadcrumb-item active">Formatos</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,16 +26,11 @@
             <!-- /.card-header -->
 
             <div class="col-md-12">
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h3 class="card-title">Editar {{$school->name}}</h3>
-                    </div>
-                    <!-- /.card-header -->
+                <div class="card card-primary">
                     <!-- form start -->
 
-                    <form role="form" method="Post" action="{{ url('/schools/edit/' .$school->id) }}" enctype="multipart/form-data">
-                        {{ csrf_field()}}
-                        {{ method_field('PATCH')}}
+                    <form role="form" method="POST" action="{{ url('/formats/store') }}">
+
                         <div class="card-body">
 
                             <div class="row">
@@ -44,7 +39,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                    <input type="text" name="name" value="{{$school->name}}" class="form-control">
+                                    <input type="text" name="name" class="form-control">
                                 </div>                                
                             </div>
 
@@ -52,24 +47,11 @@
 
                             <div class="row">
                                 <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                    <label for="Dirección">Dirección</label>
+                                    <label for="Description">Descripción</label>
                                 </div>
 
                                 <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                    <input type="text" name="address" value="{{$school->address}}" class="form-control">
-                                </div>                                
-                            </div>
-
-                            <br>
-
-
-                            <div class="row">
-                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                    <label for="Telefono">Teléfono</label>
-                                </div>
-
-                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                    <input type="text" name="phone" value="{{$school->phone}}" class="form-control">
+                                    <textarea class="form-control" name="description"></textarea>
                                 </div>                                
                             </div>
 
@@ -77,38 +59,25 @@
 
                             <div class="row">
                                 <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                    <label for="Responsable">Responsable</label>
+                                    <label for="BeginDate">Fecha Inicio</label>
                                 </div>
 
-                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                    <input type="text" name="responsible" value="{{$school->responsible}}" class="form-control">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                    <input type="date" name="beginDate" class="form-control">
+                                </div>                                
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                    <input type="date" name="endDate" class="form-control">
                                 </div>                                
                             </div>
-
-
-                            <br>
-
                             
-                            <div class="row">
-                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                    <label for="Email">Email</label>
-                                </div>
-
-                                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                    <input type="email" name="email" value="{{$school->email}}" class="form-control">
-                                </div>                                
-                            </div>
-
-
-
-
 
 
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer d-flex">
-                            <a href="{{url('schools')}}"><button type="button" class="btn btn-danger p-2">Regresar</button></a>
+                            <a href="{{url('formats')}}"><button type="button" class="btn btn-danger p-2">Regresar</button></a>
                             <button type="submit" class="btn btn-success ml-auto p-2">Guardar</button>
                         </div>
                     </form>
@@ -127,7 +96,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#schooltable').DataTable();
+            $('#stocktable').DataTable();
         });
 
     </script>

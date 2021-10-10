@@ -86,7 +86,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{url('formatos')}}" class="nav-link">
+            <a href="{{url('formats')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Formatos
