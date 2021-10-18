@@ -23,7 +23,7 @@ class FormatController extends Controller
 
     public function index(Request $request)
     {
-        $query = Format::orderBy('name', 'asc');
+        $query = Format::where('active', true)->orderBy('name', 'asc');
         $formats = $query->paginate();
         return view('formats.index',compact('formats'));
     }
@@ -46,6 +46,7 @@ class FormatController extends Controller
         $format->description = $request->description;
         $format->beginDate = $request->beginDate;
         $format->endDate = $request->endDate;        
+        $format->active = true;
         $format->save();
 
         return redirect('formats')->with('success','Formato creado correctamente.');
@@ -84,12 +85,19 @@ class FormatController extends Controller
 
     public function configure($id){
         $format = Format::findOrFail($id);
+        //dd($format->categories[0]->questions);
         return view('formats.configure',compact('format'));
-
     }
 
     public function configureStore(Request $request, $id){
         $format = Format::findOrFail($id);
+
+        foreach($format->categories as $category){
+            foreach($category->questions as $question){
+                Question::destroy($question->id);
+            }
+            Category::destroy($category->id);
+        }
         
         foreach($request['category'] as $category){
 

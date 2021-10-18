@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Hash;
 
 use App\Imports\schoolsImport;
 use App\Models\Variable;
@@ -53,6 +55,15 @@ class SchoolController extends Controller
         
         $school->save();
 
+        $User = new User();
+        $User->name = $request->responsible;
+        $User->email = $request->email;
+        $User->password = Hash::make('123123123');
+        $User->userTypeId = 2;//Directora
+        $User->schoolId = $school->id;
+        $User->save();
+        
+
         return redirect('schools')->with('success','Jardin de niños creado correctamente.');
     }
 
@@ -81,6 +92,11 @@ class SchoolController extends Controller
         $school->active = true;
        
         $school->save();
+
+        $User = User::where('schoolId', $school->id)->first();
+        $User->name = $request->responsible;
+        $User->email = $request->email;
+        $User->save();
 
         return redirect('schools')->with('success','Jardin de niños editado correctamente.');
 

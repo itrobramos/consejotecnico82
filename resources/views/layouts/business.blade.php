@@ -53,12 +53,12 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{env('DEPLOY_URL')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
+      <div class="user-panel mt-3 pb-2 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block">
+            <i class="nav-icon fas fa-user-alt"></i>
+            {{ Auth::user()->name }}
+          </a>
         </div>
       </div>
 
@@ -76,6 +76,8 @@
               </p>
             </a>
           </li>
+
+          @if(Auth::user()->userTypeId == 1)
           <li class="nav-item">
             <a href="{{url('schools')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -84,7 +86,9 @@
               </p>
             </a>
           </li>
+          @endif
 
+          @if(Auth::user()->userTypeId == 1)
           <li class="nav-item">
             <a href="{{url('formats')}}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -93,7 +97,19 @@
               </p>
             </a>
           </li>
-         
+         @endif
+
+        @if(Auth::user()->userTypeId == 2)
+         <li class="nav-item">
+           <a href="{{url('grades')}}" class="nav-link">
+             <i class="nav-icon fas fa-th"></i>
+             <p>
+               Grados
+             </p>
+           </a>
+         </li>
+        @endif
+
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
@@ -154,7 +170,7 @@
 <script src="{{env('DEPLOY_URL')}}/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{env('DEPLOY_URL')}}/dist/js/demo.js"></script>
-<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="{{env('DEPLOY_URL')}}/plugins/datatables/jquery.dataTables.min.js"></script>
 
 
 

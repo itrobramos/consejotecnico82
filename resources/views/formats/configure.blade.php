@@ -54,6 +54,58 @@
                                 </tr>
                             </thead>
                             <tbody id="rowsoptions">
+
+                                @foreach($format->categories as $category)
+                                    <tr id="{{$category->id}}" class="bg-light color-palette">
+                                        <td>{{$category->name}}<input type="hidden" name="category[{{$category->id}}][name]" value="{{$category->name}}"></td> 
+                                        <td>
+                                            <button type="button" class="btn-md btn btn-success m-btn m-btn--icon m-btn--pill" onclick="addQuestion({{$category->id}})">+</button>
+                                            <button data-repeater-delete="" onclick="deletetemplate({{$category->id}})"
+                                                class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill">
+                                                <span>
+                                                    <i class="fa fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+
+                                        <td id="questions{{$category->id}}">                                            
+                                            @foreach($category->questions as $question)
+                                                <tr id="{{$question->id}}" class="bg-light color-palette">
+                                                    <td style="width:500px;"><input type="text" class="form-control" name="category[{{$category->id}}][questions][{{$question->id}}][question]" value="{{$question->name}}"></td>              
+                                                    <td style="width:200px;">
+                                                        <select class="form-control" name="category[{{$category->id}}][questions][{{$question->id}}][type]">
+
+                                                            @if($question->type=="number")
+                                                                <option value="number" selected>Número</option>   
+                                                            @else
+                                                                <option value="number">Número</option>    
+                                                            @endif
+
+                                                            @if($question->type=="text")
+                                                                <option value="text" selected>Texto</option>   
+                                                            @else
+                                                                <option value="text">Texto</option>    
+                                                            @endif
+
+                                                        </select>
+                                                    </td>              
+                                
+                                                    <td>
+                                                        <button data-repeater-delete="" onclick="deletetemplate({{$question->id}})"
+                                                            class="btn-md btn btn-danger m-btn m-btn--icon m-btn--pill" type="button">
+                                                            <span>
+                                                                <i class="fa fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                            @endforeach                                
+                                        </td>              
+                                    </tr>
+                                @endforeach
+
+
                             </tbody>
                         </table>
 

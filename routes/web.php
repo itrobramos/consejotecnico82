@@ -26,6 +26,14 @@ Route::patch('/formats/edit/{id}','App\Http\Controllers\FormatController@update'
 Route::delete('/formats/destroy/{id}','App\Http\Controllers\FormatController@destroy')->name('formats.destroy');
 
 
+//Grades
+Route::get('grades','App\Http\Controllers\GradeController@index')->name('grades.index');
+Route::get('/grades/add','App\Http\Controllers\GradeController@create')->name('grades.add');
+Route::post('/grades/store','App\Http\Controllers\GradeController@store')->name('grades.store');
+Route::get('/grades/edit/{id}','App\Http\Controllers\GradeController@edit')->name('grades.edit');
+Route::patch('/grades/edit/{id}','App\Http\Controllers\GradeController@update')->name('grades.update');
+Route::delete('/grades/destroy/{id}','App\Http\Controllers\GradeController@destroy')->name('grades.destroy');
+
 Auth::routes();
 
 
