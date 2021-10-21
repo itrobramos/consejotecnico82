@@ -92,9 +92,11 @@
                 <table class="table table-bordered">
 
                     @foreach ($oldformats as $format)
-                        <tr class="bg-gradient-gray-dark">
+                        <tr class="bg-default">
                             <td style="width:80%">{{ $format->format->name }}</td>
-                            <td style="width:10%"><button class="btn btn-primary">Detalles</button></td>
+                            <td style="width:10%"><a href="{{ route('formats.details', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-primary">Ver Respuestas</button></a></td>
+                            <td style="width:10%"><a href="{{ route('formats.details', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-success">Ver Gráficas</button></a></td>
+
                         </tr>
                     @endforeach
 

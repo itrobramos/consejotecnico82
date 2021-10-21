@@ -170,5 +170,16 @@ class FormatController extends Controller
 
         return redirect('home')->with('success','Formato enviado correctamente al Consejo Técnico.');
     }
+
+
+    public function details($id){
+
+        $format = Format::find($id);
+        $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
+        $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+
+
+        return view('formats.details',compact('format', 'grades', 'answers'));
+    }
    
 }
