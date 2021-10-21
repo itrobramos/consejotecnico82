@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Format extends Model
 {
 
+
+    use SoftDeletes;
     // public function type(){
     //     return $this->belongsTo(ProductType::class,'productTypeId','id');
     // }

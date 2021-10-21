@@ -53,11 +53,13 @@
                                     Editar
                                 </a>
 
+                                @if($format->active != 1)
                                 <a class="btn btn-dark btn-sm" href="{{ route('formats.configure', ['id'=>$format->id]) }}">
                                     <i class="fas fa-eye">
                                     </i>
                                     Configurar
                                 </a>
+                                @endif
 
 
 

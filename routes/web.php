@@ -25,6 +25,11 @@ Route::post('/formats/configureStore/{id}','App\Http\Controllers\FormatControlle
 Route::patch('/formats/edit/{id}','App\Http\Controllers\FormatController@update')->name('formats.update');
 Route::delete('/formats/destroy/{id}','App\Http\Controllers\FormatController@destroy')->name('formats.destroy');
 
+Route::get('/formats/answer/{id}','App\Http\Controllers\FormatController@answer')->name('formats.answer');
+Route::get('/formats/send/{id}','App\Http\Controllers\FormatController@send')->name('formats.send');
+Route::post('/formats/answerpost/{id}','App\Http\Controllers\FormatController@answerpost')->name('formats.answerpost');
+Route::get('/formats/details/{id}','App\Http\Controllers\FormatController@details')->name('formats.details');
+
 
 //Grades
 Route::get('grades','App\Http\Controllers\GradeController@index')->name('grades.index');
@@ -34,6 +39,8 @@ Route::get('/grades/edit/{id}','App\Http\Controllers\GradeController@edit')->nam
 Route::patch('/grades/edit/{id}','App\Http\Controllers\GradeController@update')->name('grades.update');
 Route::delete('/grades/destroy/{id}','App\Http\Controllers\GradeController@destroy')->name('grades.destroy');
 
-Auth::routes();
+Auth::routes(
+    ['register' => false
+]);
 
 

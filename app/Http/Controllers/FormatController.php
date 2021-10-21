@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Format;
+use App\Models\SendFormat;
+use App\Models\Grade;
+use App\Models\SentFormat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +26,7 @@ class FormatController extends Controller
 
     public function index(Request $request)
     {
-        $query = Format::where('active', true)->orderBy('name', 'asc');
+        $query = Format::orderBy('name', 'asc');
         $formats = $query->paginate();
         return view('formats.index',compact('formats'));
     }
@@ -46,7 +49,7 @@ class FormatController extends Controller
         $format->description = $request->description;
         $format->beginDate = $request->beginDate;
         $format->endDate = $request->endDate;        
-        $format->active = true;
+        $format->active = false;
         $format->save();
 
         return redirect('formats')->with('success','Formato creado correctamente.');
@@ -114,13 +117,58 @@ class FormatController extends Controller
                 $Question->type= $question['type'];
                 $Question->save();
             }
-
         }
 
         return redirect('formats')->with('success','Formato configurado correctamente.');
+    }
+
+    public function answer($id){
+        $format = Format::findOrFail($id);
+        $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
+        $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+
+
+        return view('formats.answer',compact('format', 'grades', 'answers'));
+    }
+
+    public function answerpost(Request $request, $id){
+
+
+        $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+
+        foreach($answers as $answer){
+            Answer::destroy($answer->id);
+        }
+
+        foreach($request->answer as $grade => $j ){
+
+            foreach($j as $question => $answ){
+                if($answ != null && $answ != ''){
+                    $answer = new Answer();
+                    $answer->schoolId = Auth::user()->schoolId;
+                    $answer->answer = $answ;
+                    $answer->questionId = $question;
+                    $answer->gradeId = $grade;
+                    $answer->formatId = $id;
+                    $answer->save();    
+                }
+            }
+        }
+
+        return redirect('home')->with('success','Formato guardado correctamente.');
 
     }
-   
 
+
+    public function send($id){
+
+        $SentFormat = new SentFormat();
+        $SentFormat->formatId = $id;
+        $SentFormat->schoolId = Auth::user()->schoolId;
+        $SentFormat->userId = Auth::user()->id;
+        $SentFormat->save();
+
+        return redirect('home')->with('success','Formato enviado correctamente al Consejo Técnico.');
+    }
    
 }
