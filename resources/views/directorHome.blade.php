@@ -30,14 +30,12 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>3</h3>
+                                <h3>{{$formats->count()}}</h3>
                                 <p>Formatos Abiertos</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Más información <i
-                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -45,15 +43,13 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>12</h3>
+                                <h3>{{$oldformats->count()}}</h3>
 
                                 <p>Contestados</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Más información <i
-                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -89,14 +85,13 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
               <h1>Histórico</h1>
-                <table class="table table-bordered">
+                <table class="table table-bordered text-wrap">
 
                     @foreach ($oldformats as $format)
                         <tr class="bg-default">
-                            <td style="width:80%">{{ $format->format->name }}</td>
-                            <td style="width:10%"><a href="{{ route('formats.details', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-primary">Ver Respuestas</button></a></td>
-                            <td style="width:10%"><a href="{{ route('formats.details', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-success">Ver Gráficas</button></a></td>
-
+                            <td style="width:70%">{{ $format->format->name }}</td>
+                            <td style="width:15%"><a href="{{ route('formats.details', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-primary">Ver Respuestas</button></a></td>
+                            <td style="width:15%"><a href="{{ route('formats.graphs', ['id'=>$format->format->id]) }}"><button class="btn btn-sm btn-success">Ver Gráficas</button></a></td>
                         </tr>
                     @endforeach
 

@@ -175,11 +175,59 @@ class FormatController extends Controller
     public function details($id){
 
         $format = Format::find($id);
-        $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
+        $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
         $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
 
 
         return view('formats.details',compact('format', 'grades', 'answers'));
     }
    
+    public function graphs($id){
+
+        $format = Format::find($id);
+        $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
+        $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+
+        $graphs = [];
+
+
+        foreach($format->categories as $category){
+            foreach($category->questions as $question){
+                
+                $gradesarray = [];
+
+                if($question->type=="number"){
+                    
+                    foreach($grades as $grade){
+
+                        $answer = Answer::where('questionId', $question->id)
+                                        ->where('schoolId', Auth::user()->schoolId)
+                                        ->where('gradeId', $grade->id)
+                                        ->where('formatId', $id)->first();
+
+                        if($answer == null)
+                            $answer1 = 0;
+                        else    
+                            $answer1 = $answer->answer;
+
+                        $gradesarray[] = ["grade" => $grade->grade,
+                                          "hall" => $grade->hall,
+                                          "answer" => $answer1
+                                         ];
+                    }
+
+                    $graphs[] = ["question" => $question->name,
+                                 "questionId" => $question->id,
+                                 "grades" => $gradesarray
+                                ];
+                }
+            }
+        }
+
+
+        return view('formats.graphs',compact('format', 'graphs'));
+
+    }
+
 }
+
