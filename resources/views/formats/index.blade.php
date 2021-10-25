@@ -34,45 +34,52 @@
 
             <!-- /.card-header -->
             <div class="card-body">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" id="formatTable">
                     <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
                             <th></th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($formats as $format)
                         <tr>
                             <td>{{$format->name}}</td>
+                            <td>{{$format->beginDate}}</td>
+                            <td>{{$format->endDate}}</td>
 
                             <td>
-                                <a class="btn btn-info btn-sm" href="{{ route('formats.edit', ['id'=>$format->id]) }}">
+                                <a title="Editar" class="btn btn-info btn-sm" href="{{ route('formats.edit', ['id'=>$format->id]) }}">
                                     <i class="fas fa-pencil-alt">
                                     </i>
-                                    Editar
                                 </a>
 
                                 @if($format->active != 1)
-                                <a class="btn btn-dark btn-sm" href="{{ route('formats.configure', ['id'=>$format->id]) }}">
-                                    <i class="fas fa-eye">
+                                <a title="Configurar" class="btn btn-dark btn-sm" href="{{ route('formats.configure', ['id'=>$format->id]) }}">
+                                    <i class="fas fa-cog">
                                     </i>
-                                    Configurar
                                 </a>
+
+                                <a title="Activar" class="btn btn-success btn-sm" href="{{ route('formats.activate', ['id'=>$format->id]) }}">
+                                    <i class="fas fa-check">
+                                    </i>
+                                </a>
+
                                 @endif
 
-
-
-                                <a class="btn btn-danger btn-sm button-destroy"
+                                <a title="Eliminar" class="btn btn-danger btn-sm button-destroy"
                                     href="{{ route('formats.destroy',['id'=>$format->id]) }}" data-original-title="Eliminar"
                                     data-method="delete" data-trans-button-cancel="Cancelar"
                                     data-trans-button-confirm="Eliminar" data-trans-title="¿Está seguro de esta operación?"
                                     data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                     <i class="fas fa-trash">
                                     </i>
-                                    Eliminar
                                 </a>
                             </td>
+
                             @endforeach
                         </tr>
                     </tbody>
@@ -86,7 +93,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#formattable').DataTable();
+            $('#formatTable').DataTable();
         });
     </script>
 

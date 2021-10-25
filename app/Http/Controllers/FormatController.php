@@ -6,11 +6,16 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\Format;
-use App\Models\SendFormat;
 use App\Models\Grade;
 use App\Models\SentFormat;
+use App\Models\School;
+use App\Models\SchoolFormat;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Collection\Collection;
+
 
 class FormatController extends Controller
 {
@@ -24,21 +29,16 @@ class FormatController extends Controller
         // });
     }
 
-    public function index(Request $request)
-    {
-        $query = Format::orderBy('name', 'asc');
-        $formats = $query->paginate();
+    public function index(Request $request){
+        $formats = Format::orderBy('beginDate')->get();
         return view('formats.index',compact('formats'));
     }
-    
 
-    public function create()
-    {
+    public function create(){
         return view('formats.add');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validatedData = $request->validate([
             'name' => 'required'
         ]);
@@ -55,16 +55,12 @@ class FormatController extends Controller
         return redirect('formats')->with('success','Formato creado correctamente.');
     }
 
-   
-
-    public function edit($id)
-    {
+    public function edit($id){
         $format = Format::findOrFail($id);
         return view('formats.edit',compact('format'));
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $validatedData = $request->validate([
             'name' => 'required'
         ]);
@@ -80,8 +76,7 @@ class FormatController extends Controller
 
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
         Format::destroy($id);
         return redirect('formats')->with('success','Formato eliminado correctamente.');
     }
@@ -124,7 +119,7 @@ class FormatController extends Controller
 
     public function answer($id){
         $format = Format::findOrFail($id);
-        $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
+        $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
         $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
 
 
@@ -159,7 +154,6 @@ class FormatController extends Controller
 
     }
 
-
     public function send($id){
 
         $SentFormat = new SentFormat();
@@ -171,13 +165,38 @@ class FormatController extends Controller
         return redirect('home')->with('success','Formato enviado correctamente al Consejo Técnico.');
     }
 
-
     public function details($id){
 
-        $format = Format::find($id);
-        $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
-        $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+        if (Auth::user()->userTypeId == 2){ //Directora
+            $format = Format::find($id);
+            $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
+            $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+        }
+        else{
+            $format = Format::find($id);
+            $grades = Grade::select('grade')->distinct()->get();
+            $answers = Answer::where('formatId', $id)->get();
 
+            $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
+                                    FROM answers a
+                                        INNER JOIN grades g on g.id = a.gradeId 
+                                        INNER JOIN questions q on q.id = a.questionId
+                                        INNER JOIN categories c on c.id = q.categoryId
+                                        INNER JOIN formats f on f.id = c.formatId
+                                    WHERE f.id = ' . $id . '
+                                        AND q.type = "number"
+                                    GROUP BY q.id, q.name, g.grade');
+
+
+            $answers = collect($answers);
+
+            //dd($answers);
+
+
+        }
+
+
+      
 
         return view('formats.details',compact('format', 'grades', 'answers'));
     }
@@ -227,6 +246,37 @@ class FormatController extends Controller
 
         return view('formats.graphs',compact('format', 'graphs'));
 
+    }
+
+    public function activate($id){
+        $format = Format::findOrFail($id);
+        $schools = School::get();
+        return view('formats.activate',compact('format', 'schools'));
+    }
+
+    public function activatepost(Request $request, $id){
+
+
+        $SchoolFormats = SchoolFormat::where('formatId', $id)->get();
+        foreach($SchoolFormats as $SchoolFormat){
+            SchoolFormat::destroy($SchoolFormat->id);
+        }
+
+        foreach($request->schools as $schoolId => $on){
+
+            $SchoolFormat = new SchoolFormat();
+            $SchoolFormat->schoolId = $schoolId;
+            $SchoolFormat->formatId = $id;
+            $SchoolFormat->ended = false;
+            $SchoolFormat->save();
+            
+        }
+
+        $Format = Format::find($id);
+        $Format->active = true;
+        $Format->save();
+
+        return redirect('formats')->with('success','Formato activado correctamente.');
     }
 
 }

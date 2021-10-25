@@ -52,36 +52,73 @@
                                         <td class="bg-primary" style="width:25px;"></td>
                                         @foreach ($format->categories as $category)
                                             @foreach ($category->questions as $question)
+                                                @if($question->type == "number")
                                                 <td class="bg-gradient-white"
                                                     style="text-align:center; writing-mode: vertical-rl; text-orientation: use-glyph-orientation;">
                                                     {{ $question->name }}</td>
+                                                @endif
                                             @endforeach
                                         @endforeach
                                     </tr>
 
-                                    @foreach ($grades as $grade)
-                                        <tr>
-                                            <td class="bg-primary">{{ $grade->grade }} {{ @$grade->hall }} </td>
-                                            @foreach ($format->categories as $category)
-                                                @foreach ($category->questions as $question)
-                                                    @php 
-                                                        if($answers->where('gradeId', $grade->id)->where('questionId',$question->id)->first() != null){
-                                                            $answer = $answers->where('gradeId', $grade->id)->where('questionId',$question->id)->first()->answer;
-                                                        }
-                                                        else{
-                                                            $answer = '';
-                                                        }
-                                                    @endphp
-                                                    @if($question->type=="number")
-                                                        <td><input readonly     type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
-                                                    @else
-                                                        <td><input readonly  type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
+                                    @if(Auth::user()->userTypeId == 1)
+                                        {{-- Admin --}}
+                                        @foreach ($grades as $grade)
+                                            <tr>
+                                                <td class="bg-primary">{{ $grade->grade }} </td>
+                                                @foreach ($format->categories as $category)
+                                                    @foreach ($category->questions as $question)
+                                                        @php 
+                                                            if($answers->where('grade', $grade->grade)
+                                                                            ->where('questionId', $question->id)
+                                                                            ->first() != null)
+                                                            {
+                                                        
+                                                                $answer = $answers->where('grade', $grade->grade)->where('questionId',$question->id)->first()->answer;
+                                                            }
+                                                            else{
+                                                                $answer = "";
+                                                            }
+                                                        @endphp
 
-                                        </tr>
-                                    @endforeach
+                                                        @if($question->type == "number")
+                                                            <td><input readonly  type="text" class="form-control" style="width:100%;" value={{$answer}}></td>
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+                                
+
+                                    @else 
+                                        {{-- Directora --}}
+                                        @foreach ($grades as $grade)
+                                            <tr>
+                                                <td class="bg-primary">{{ $grade->grade }} {{ @$grade->hall }} </td>
+                                                @foreach ($format->categories as $category)
+                                                    @foreach ($category->questions as $question)
+                                                        @php 
+                                                            if($answers->where('gradeId', $grade->id)->where('questionId',$question->id)->first() != null){
+                                                                $answer = $answers->where('gradeId', $grade->id)->where('questionId',$question->id)->first()->answer;
+                                                            }
+                                                            else{
+                                                                $answer = '';
+                                                            }
+                                                        @endphp
+                                                        @if($question->type=="number")
+                                                            <td><input readonly     type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                        @else
+                                                            <td><input readonly  type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+
+                                            </tr>
+                                        @endforeach
+                                
+                                    @endif
+
+                                   
                                 </table>
 
                                 <div class="card-footer d-flex">

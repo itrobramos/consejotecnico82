@@ -30,22 +30,13 @@ class HomeController extends Controller
     {
         if (Auth::user()->userTypeId == 1){ //Admin
 
-            $oldformats = SentFormat::where('schoolId',Auth::user()->schoolId)->get();
-
-            $ids= [];
-            foreach($oldformats as $oldFormat){
-                $ids[] = $oldFormat->formatId;
-            }
-
-
             $formats = Format::where('beginDate', '<=', date('Y-m-d'))
                 ->where('endDate', '>=', date('Y-m-d'))
                 ->where('active', 1)
-                ->whereNotIn('id',$ids)
                 ->get();
 
 
-            return view('home', compact('formats','oldformats'));
+            return view('home', compact('formats'));
         }
         else { //Directora
 
