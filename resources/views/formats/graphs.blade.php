@@ -79,7 +79,7 @@
                 var areaChartData = {
                 labels : [
                 @foreach ($grade['grades'] as $g)
-                    "{{ $g['grade'] }}-{{ $g['hall'] }}",
+                    "{{ $g['grade'] }}-{{ @$g['hall'] }}",
                 @endforeach
                 ],
                 datasets: [

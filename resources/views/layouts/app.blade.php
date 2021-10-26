@@ -20,16 +20,17 @@
 </head>
 <body>
     <style>
-        #app{
-            background: url('/dist/img/background.png') no-repeat center center fixed; 
+        body{
+            /* background: url('/dist/img/background.png') no-repeat center center fixed; 
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
             height: 800px;
-        
+         */
+         background-color:#DCECEC;
         }
-    </style>
+    </style> 
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
