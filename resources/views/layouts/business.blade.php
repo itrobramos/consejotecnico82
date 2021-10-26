@@ -53,7 +53,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-2 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block">
+          <a href="{{url('users/changePassword')}}" class="d-block">
             <i class="nav-icon fas fa-user-alt"></i>
             {{ Auth::user()->name }}
           </a>

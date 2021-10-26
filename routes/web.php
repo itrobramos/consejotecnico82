@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
+
+Route::get('/users/changePassword','App\Http\Controllers\UserController@changePassword')->name('users.changePassword');
+Route::post('/users/updatePassword','App\Http\Controllers\UserController@updatePassword')->name('users.updatePassword');
+    
 //School
 Route::get('schools','App\Http\Controllers\SchoolController@index')->name('schools.index');
 Route::get('/schools/add','App\Http\Controllers\SchoolController@create')->name('schools.add');
