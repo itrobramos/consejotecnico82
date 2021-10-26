@@ -30,7 +30,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>3</h3>
+                                <h3>{{$openFormats->count()}}</h3>
                                 <p>Formatos Abiertos</p>
                             </div>
                             <div class="icon">
@@ -43,7 +43,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>15</h3>
+                                <h3>{{$alcance}}</h3>
                                 <p>Alcance</p>
                             </div>
                             <div class="icon">
@@ -56,7 +56,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>12</h3>
+                                <h3>{{$contestados}}</h3>
 
                                 <p>Contestados</p>
                             </div>
@@ -70,7 +70,7 @@
                         <!-- small box -->
                         <div class="small-box bg-primary">
                             <div class="inner">
-                                <h3>3</h3>
+                                <h3>{{$alcance-$contestados}}</h3>
 
                                 <p>Pendientes</p>
                             </div>
