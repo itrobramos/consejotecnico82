@@ -37,8 +37,11 @@ class HomeController extends Controller
                 ->where('active', 1)
                 ->get();
 
-            $schoolFormats = SchoolFormat::where('ended',0)->get();
-            $openFormats = SchoolFormat::where('ended',0)->get()->unique('formatId');
+            $schoolFormats = SchoolFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
+                                          ->where('ended',0)->get();
+
+            $openFormats = SchoolFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
+                                        ->where('ended',0)->get()->unique('formatId');
 
             $alcance = DB::select(' SELECT COUNT(*) count FROM schools_formats 
             WHERE formatId IN (
@@ -63,7 +66,12 @@ class HomeController extends Controller
         }
         else { //Directora
 
-            $oldformats = SentFormat::where('schoolId',Auth::user()->schoolId)->get();
+            $oldformats = SentFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
+                                        ->where('schoolId',Auth::user()->schoolId)
+                                        ->where('deleted_at', NULL)
+                                        ->get();
+
+         
 
             $ids= [];
             foreach($oldformats as $oldFormat){

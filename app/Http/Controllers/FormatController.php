@@ -171,7 +171,7 @@ class FormatController extends Controller
             $format = Format::find($id);
             $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
             $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
-            $schools = School::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->get();
+            $schools = School::where('id',Auth::user()->schoolId)->get();
             $selected = Auth::user()->schoolId;
         }
         else{
@@ -230,7 +230,7 @@ class FormatController extends Controller
             $format = Format::find($id);
             $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
             $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
-            $schools = School::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->get();
+            $schools = School::where('id',Auth::user()->schoolId)->get();
             $selected = Auth::user()->schoolId;
             $graphs = [];
     

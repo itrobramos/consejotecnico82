@@ -33,6 +33,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
 
+                    <br><br>
                     <form action="{{url('formats/graphs/' .$format->id)}}" method="POST">
                         <div class="row  justify-content-center">
         
