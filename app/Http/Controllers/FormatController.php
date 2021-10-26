@@ -165,50 +165,73 @@ class FormatController extends Controller
         return redirect('home')->with('success','Formato enviado correctamente al Consejo Técnico.');
     }
 
-    public function details($id){
+    public function details(Request $request, $id){
 
         if (Auth::user()->userTypeId == 2){ //Directora
             $format = Format::find($id);
             $grades = Grade::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->orderBy('hall','asc')->get();
             $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
+            $schools = School::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->get();
+            $selected = Auth::user()->schoolId;
         }
         else{
-            $format = Format::find($id);
-            $grades = Grade::select('grade')->distinct()->get();
-            $answers = Answer::where('formatId', $id)->get();
 
-            $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
-                                    FROM answers a
-                                        INNER JOIN grades g on g.id = a.gradeId 
-                                        INNER JOIN questions q on q.id = a.questionId
-                                        INNER JOIN categories c on c.id = q.categoryId
-                                        INNER JOIN formats f on f.id = c.formatId
-                                    WHERE f.id = ' . $id . '
-                                        AND q.type = "number"
-                                    GROUP BY q.id, q.name, g.grade');
+            $format = Format::find($id);
+            $schools = School::orderBy('name','asc')->get();
+
+            if(isset($request->schoolId) && $request->schoolId > 0){
+                $grades = Grade::where('schoolId', $request->schoolId)->select('grade')->distinct()->get();
+                $answers = Answer::where('formatId', $id)->where('schoolId', $request->schoolId)->get();
+                $selected = $request->schoolId;
+
+                $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
+                FROM answers a
+                    INNER JOIN grades g on g.id = a.gradeId 
+                    INNER JOIN questions q on q.id = a.questionId
+                    INNER JOIN categories c on c.id = q.categoryId
+                    INNER JOIN formats f on f.id = c.formatId
+                WHERE f.id = ' . $id . '
+                    AND a.schoolId = ' . $request->schoolId . ' 
+                    AND q.type = "number"
+                GROUP BY q.id, q.name, g.grade');
+            }
+            else{
+                $grades = Grade::select('grade')->distinct()->get();
+                $answers = Answer::where('formatId', $id)->get();   
+                $selected = 0; 
+
+                $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
+                FROM answers a
+                    INNER JOIN grades g on g.id = a.gradeId 
+                    INNER JOIN questions q on q.id = a.questionId
+                    INNER JOIN categories c on c.id = q.categoryId
+                    INNER JOIN formats f on f.id = c.formatId
+                WHERE f.id = ' . $id . '
+                    AND q.type = "number"
+                GROUP BY q.id, q.name, g.grade');
+            }
+            
+
+           
 
 
             $answers = collect($answers);
 
-            //dd($answers);
-
 
         }
 
-
-      
-
-        return view('formats.details',compact('format', 'grades', 'answers'));
+        return view('formats.details',compact('format', 'grades', 'answers', 'schools', 'selected'));
     }
    
-    public function graphs($id){
+    public function graphs(Request $request, $id){
 
 
         if (Auth::user()->userTypeId == 2){ //Directora
             $format = Format::find($id);
             $grades = Grade::where('schoolId',Auth::user()->schoolId)->get();
             $answers = Answer::where('formatId', $id)->where('schoolId', Auth::user()->schoolId)->get();
-    
+            $schools = School::where('schoolId',Auth::user()->schoolId)->orderBy('grade','asc')->get();
+            $selected = Auth::user()->schoolId;
             $graphs = [];
     
     
@@ -249,82 +272,93 @@ class FormatController extends Controller
         }
         else{
             $format = Format::find($id);
-            $grades = Grade::select('grade')->distinct()->get();
-            $answers = Answer::where('formatId', $id)->get();
-
-
+            $schools = School::orderBy('name','asc')->get();
             $graphs = [];
-    
-            $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
-                                    FROM answers a
-                                        INNER JOIN grades g on g.id = a.gradeId 
-                                        INNER JOIN questions q on q.id = a.questionId
-                                        INNER JOIN categories c on c.id = q.categoryId
-                                        INNER JOIN formats f on f.id = c.formatId
-                                    WHERE f.id = ' . $id . '
-                                        AND q.type = "number"
-                                    GROUP BY q.id, q.name, g.grade');
+
+            if(isset($request->schoolId) && $request->schoolId > 0){
+                $grades = Grade::select('grade')->distinct()->get();
+                $answers = Answer::where('formatId', $id)->where('schoolId', $request->schoolId)->get();
+                $selected = $request->schoolId;
+
+                $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
+                                        FROM answers a
+                                            INNER JOIN grades g on g.id = a.gradeId 
+                                            INNER JOIN questions q on q.id = a.questionId
+                                            INNER JOIN categories c on c.id = q.categoryId
+                                            INNER JOIN formats f on f.id = c.formatId
+                                        WHERE f.id = ' . $id . '
+                                            AND a.schoolId = ' . $request->schoolId . ' 
+                                            AND q.type = "number"
+                                        GROUP BY q.id, q.name, g.grade');
+            }
+            else{
+                $grades = Grade::select('grade')->distinct()->get();
+                $answers = Answer::where('formatId', $id)->get();
+                $selected = 0; 
+
+                $answers = DB::select(' SELECT q.id questionId, q.name, g.grade, sum(a.answer) as answer 
+                                        FROM answers a
+                                            INNER JOIN grades g on g.id = a.gradeId 
+                                            INNER JOIN questions q on q.id = a.questionId
+                                            INNER JOIN categories c on c.id = q.categoryId
+                                            INNER JOIN formats f on f.id = c.formatId
+                                        WHERE f.id = ' . $id . '
+                                            AND q.type = "number"
+                                        GROUP BY q.id, q.name, g.grade');
+
+            }
 
 
             $answers = collect($answers);
 
-
-            $lastQuestion = $answers->first()->questionId;
-            $lastQuestionName = $answers->first()->name;
-
-       
-            
-            $reinicio = 0;
-            $gradesarray = [];
-            foreach($answers as $answer){
-                if($answer->questionId == $lastQuestion){
-
-                    $gradesarray[] = [
-                                       "grade" => $answer->grade,
-                                       "answer" => $answer->answer
-                                     ];
-
-                    $reinicio = 1;
-
-                   
-                }
-                else{
-
-
-                    if($reinicio == 1){
-
-                        $graphs[] = ["question" => $lastQuestionName,
-                            "questionId" => $lastQuestion,
-                            "grades" => $gradesarray
-                        ];
-
+            if($answers->count() > 0){
+                $lastQuestion = $answers->first()->questionId;
+                $lastQuestionName = $answers->first()->name;
+    
+                $reinicio = 0;
+                $gradesarray = [];
+                foreach($answers as $answer){
+                    if($answer->questionId == $lastQuestion){
+    
+                        $gradesarray[] = [
+                                           "grade" => $answer->grade,
+                                           "answer" => $answer->answer
+                                         ];
+    
+                        $reinicio = 1;
                     }
-
-                    $gradesarray = [];
-
-                    $reinicio = 0;
-
-                    $gradesarray[] = [
-                        "grade" => $answer->grade,
-                        "answer" => $answer->answer
-                    ];
-                   
-                   
-                }
-
-                $lastQuestion = $answer->questionId;
-                $lastQuestionName = $answer->name;
-            }
-
-
-            $graphs[] = ["question" => $answer->name,
-                         "questionId" => $answer->questionId,
-                         "grades" => $gradesarray
+                    else{
+                        if($reinicio == 1){
+    
+                            $graphs[] = ["question" => $lastQuestionName,
+                                "questionId" => $lastQuestion,
+                                "grades" => $gradesarray
+                            ];
+                        }
+    
+                        $gradesarray = [];
+                        $reinicio = 0;
+                        $gradesarray[] = [
+                            "grade" => $answer->grade,
+                            "answer" => $answer->answer
                         ];
-        
+                    }
+    
+                    $lastQuestion = $answer->questionId;
+                    $lastQuestionName = $answer->name;
+                }
+    
+    
+                $graphs[] = ["question" => $answer->name,
+                             "questionId" => $answer->questionId,
+                             "grades" => $gradesarray
+                            ];
+            
+    
+            }
         }
 
-        return view('formats.graphs',compact('format', 'graphs'));
+        return view('formats.graphs',compact('format', 'graphs', 'schools', 'selected'));
 
     }
 

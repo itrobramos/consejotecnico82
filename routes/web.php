@@ -29,7 +29,10 @@ Route::get('/formats/answer/{id}','App\Http\Controllers\FormatController@answer'
 Route::get('/formats/send/{id}','App\Http\Controllers\FormatController@send')->name('formats.send');
 Route::post('/formats/answerpost/{id}','App\Http\Controllers\FormatController@answerpost')->name('formats.answerpost');
 Route::get('/formats/details/{id}','App\Http\Controllers\FormatController@details')->name('formats.details');
+Route::post ('/formats/details/{id}','App\Http\Controllers\FormatController@details')->name('formats.details');
+
 Route::get('/formats/graphs/{id}','App\Http\Controllers\FormatController@graphs')->name('formats.graphs');
+Route::post ('/formats/graphs/{id}','App\Http\Controllers\FormatController@graphs')->name('formats.graphs');
 Route::get('/formats/activate/{id}','App\Http\Controllers\FormatController@activate')->name('formats.activate');
 Route::post('/formats/activatepost/{id}','App\Http\Controllers\FormatController@activatepost')->name('formats.activatepost');
 

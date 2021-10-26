@@ -33,10 +33,40 @@
                     <!-- /.card-header -->
                     <!-- form start -->
 
+                    <form action="{{url('formats/graphs/' .$format->id)}}" method="POST">
+                        <div class="row  justify-content-center">
+        
+                            <div class="col-md-3">
+
+                                <select name="schoolId" class="form-control">
+                                    <option value="0">Todos</option>
+
+                                    @foreach($schools as $school)
+                                        @if($selected == $school->id)
+                                            <option value="{{$school->id}}" selected>{{$school->name}}</option>
+                                        @else
+                                            <option value="{{$school->id}}">{{$school->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-success bt   n-md" type="submit">Filtrar</button>
+                            </div>
+        
+                        </div>
+                    </form>
+
                     <br>
 
                     <div class="row justify-content-center">
                         <div class="col-12">
+
+
+                            @if(count($graphs) == 0 && $selected == 0)
+                                <h4 class="text-center bg-danger">Ninguna persona responsable ha enviado el formato al consejo técnico.</h4>
+                            @elseif(count($graphs) > 0)
 
                             <div class="row">
                                 @foreach ($graphs as $graph)
@@ -49,6 +79,9 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @else
+                                <h4 class="text-center bg-warning">La persona responsable aún no envía el formato al consejo técnico.</h4>
+                            @endif
 
 
                             <div class="card-footer d-flex">
