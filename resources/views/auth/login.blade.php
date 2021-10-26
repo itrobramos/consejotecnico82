@@ -10,7 +10,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="row justify-content-center">
-                            <img src="/dist/img/logo.png" style="height: 200px;">
+                            <img src="{{env('DEPLOY_URL')}}/dist/img/logo.png" style="height: 200px;">
                         </div>
 
                         <br>
