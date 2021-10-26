@@ -37,10 +37,11 @@ class HomeController extends Controller
                 ->where('active', 1)
                 ->get();
 
-            $schoolFormats = SchoolFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
+            $schoolFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
                                           ->where('ended',0)->get();
 
-            $openFormats = SchoolFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
+ 
+            $openFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
                                         ->where('ended',0)->get()->unique('formatId');
 
             $alcance = DB::select(' SELECT COUNT(*) count FROM schools_formats 
