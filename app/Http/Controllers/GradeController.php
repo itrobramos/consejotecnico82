@@ -16,7 +16,7 @@ class GradeController extends Controller
 
     public function index(Request $request)
     {
-        $query = Grade::orderBy('grade', 'asc')->orderBy('hall', 'asc');
+        $query = Grade::where('schoolId', Auth::user()->schoolId)->orderBy('grade', 'asc')->orderBy('hall', 'asc');
         $grades = $query->paginate();
         return view('grades.index',compact('grades'));
     }
