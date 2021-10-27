@@ -35,6 +35,8 @@
 
                     <br><br>
                     <form action="{{url('formats/graphs/' .$format->id)}}" method="POST">
+                        {{ csrf_field() }}
+
                         <div class="row  justify-content-center">
         
                             <div class="col-md-3">

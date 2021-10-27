@@ -68,8 +68,8 @@
                     @foreach ($formats as $format)
                         <tr class='bg-success'>
                             <td style="width:80%">{{ $format->name }}</td>
-                            <td style="width:10%"><a href="{{ route('formats.answer', ['id'=>$format->id]) }}"><button class="btn btn-primary">Responder</button></a></td>
-                            <td style="width:10%"><a href="{{ route('formats.send', ['id'=>$format->id]) }}"><button class="btn btn-sm btn-warning">Enviar a Consejo Técnico</button></a></td>
+                            <td style="width:10%"><a href="{{ route('formats.answer', ['id'=>$format->formatId]) }}"><button class="btn btn-primary">Responder</button></a></td>
+                            <td style="width:10%"><a href="{{ route('formats.send', ['id'=>$format->formatId]) }}"><button class="btn btn-sm btn-warning">Enviar a Consejo Técnico</button></a></td>
 
                         </tr>
                     @endforeach

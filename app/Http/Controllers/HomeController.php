@@ -37,42 +37,47 @@ class HomeController extends Controller
                 ->where('active', 1)
                 ->get();
 
-            $schoolFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
-                                          ->where('ended',0)->get();
-
- 
             $openFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
-                                        ->where('ended',0)->get()->unique('formatId');
+                                        //->where('ended',0)->get()->unique('formatId')
+                                        ->where('beginDate', '<=', date('Y-m-d'))
+                                        ->where('endDate', '>=', date('Y-m-d'))
+                                        ->where('active', 1)
+                                        ->get();
+            
+ 
+            $historicFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
+                                            ->where('ended',1)
+                                            ->where('endDate', '<=', date('Y-m-d'))
+                                            ->where('active', 1)
+                                            ->get()->unique('formatId');
+
+
 
             $alcance = DB::select(' SELECT COUNT(*) count FROM schools_formats 
             WHERE formatId IN (
-            SELECT distinct(formatId) FROM schools_formats
-            where ended = 0)');
+            SELECT distinct(id) FROM formats WHERE beginDate <= "' . date('Y-m-d') . '" AND  endDate >= "' . date('Y-m-d') . '")');
 
             $alcance = collect($alcance);
             $alcance = ($alcance[0]->count);
 
-
-
             $contestados = DB::select(' SELECT COUNT(*) count FROM schools_formats 
             WHERE formatId IN (
-            SELECT distinct(formatId) FROM schools_formats
-            where ended = 0)and
-            ended = 1');
+            SELECT distinct(id) FROM formats WHERE beginDate <= "' . date('Y-m-d') . '" AND  endDate >= "' . date('Y-m-d') . '")
+            and ended = 1');
 
             $contestados = collect($contestados);
             $contestados = ($contestados[0]->count);
 
-            return view('home', compact('formats', 'openFormats', 'alcance', 'contestados'));
+            return view('home', compact('historicFormats', 'openFormats', 'alcance', 'contestados'));
         }
         else { //Directora
 
             $oldformats = SentFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
-                                        ->where('schoolId',Auth::user()->schoolId)
+                                        ->join('schools_formats','schools_formats.formatId', '=', 'formats.id')                                                                                            
+                                        ->where('schools_formats.schoolId',Auth::user()->schoolId)
                                         ->where('deleted_at', NULL)
                                         ->get();
 
-         
 
             $ids= [];
             foreach($oldformats as $oldFormat){
@@ -80,12 +85,13 @@ class HomeController extends Controller
             }
 
 
-            $formats = Format::where('beginDate', '<=', date('Y-m-d'))
+            $formats = Format::join('schools_formats','schools_formats.formatId', '=', 'formats.id')       
+                ->where('beginDate', '<=', date('Y-m-d'))
                 ->where('endDate', '>=', date('Y-m-d'))
+                ->where('schools_formats.schoolId',Auth::user()->schoolId)
                 ->where('active', 1)
-                ->whereNotIn('id',$ids)
+                ->whereNotIn('formats.id',$ids)
                 ->get();
-
 
 
             return view('directorHome', compact('formats', 'oldformats'));

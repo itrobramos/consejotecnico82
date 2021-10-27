@@ -36,6 +36,8 @@
                     <br><br>
 
                     <form action="{{url('formats/details/' .$format->id)}}" method="POST">
+                        {{ csrf_field() }}
+
                         <div class="row  justify-content-center">
         
                             <div class="col-md-3">

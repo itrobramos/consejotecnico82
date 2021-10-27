@@ -358,6 +358,8 @@ class FormatController extends Controller
                              "questionId" => $answer->questionId,
                              "grades" => $gradesarray
                             ];
+
+                dd($graphs);
             
     
             }

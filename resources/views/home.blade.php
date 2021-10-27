@@ -86,13 +86,34 @@
 
             </div><!-- /.container-fluid -->
 
-
-
+            <h2>Formatos activos</h2>
             <div class="row">
                 <div class="col-md-10">
-                    <table class="table table-bordered text-wrap">
+                    <table class="table table-bordered text-wrap" id="table1">
 
-                        @foreach ($formats as $format)
+                        @foreach ($openFormats  as $format)
+                            <tr class="bg-default">
+                                <td style="width:70%">{{ $format->name }}</td>
+                                <td style="width:15%"><a
+                                        href="{{ route('formats.details', ['id' => $format->formatId]) }}"><button
+                                            class="btn btn-sm btn-primary">Ver Respuestas</button></a></td>
+                                <td style="width:15%"><a
+                                        href="{{ route('formats.graphs', ['id' => $format->formatId]) }}"><button
+                                            class="btn btn-sm btn-success">Ver Gráficas</button></a></td>
+                            </tr>
+                        @endforeach
+
+                    </table>
+                </div>
+            </div>
+
+            <br><br>
+            <h2>Histórico</h2>
+            <div class="row">
+                <div class="col-md-10">
+                    <table class="table table-bordered text-wrap" id="table2">
+
+                        @foreach ($historicFormats as $format)
                             <tr class="bg-default">
                                 <td style="width:70%">{{ $format->name }}</td>
                                 <td style="width:15%"><a
@@ -110,6 +131,13 @@
         </section>
         <!-- /.content -->
     </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#table2').DataTable();
+        });
+    </script>
 
 
 
