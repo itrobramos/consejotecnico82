@@ -162,6 +162,11 @@ class FormatController extends Controller
         $SentFormat->userId = Auth::user()->id;
         $SentFormat->save();
 
+        $SchoolFormat = SchoolFormat::where('schoolId', Auth::user()->schoolId)
+                                    ->where('formatId', $id)->first();
+        $SchoolFormat->ended = 1;
+        $SchoolFormat->save();                                   
+
         return redirect('home')->with('success','Formato enviado correctamente al Consejo Técnico.');
     }
 
