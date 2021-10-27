@@ -30,6 +30,7 @@
                     <!-- form start -->
 
                     <form role="form" method="POST" action="{{ url('/formats/store') }}">
+                        {{ csrf_field() }}
 
                         <div class="card-body">
 
