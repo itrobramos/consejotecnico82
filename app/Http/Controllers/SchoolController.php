@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
-
+use Mail;
 use App\Imports\schoolsImport;
 use App\Models\Variable;
 
@@ -55,14 +55,43 @@ class SchoolController extends Controller
         
         $school->save();
 
+
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 8; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
         $User = new User();
         $User->name = $request->responsible;
         $User->email = $request->email;
-        $User->password = Hash::make('123123123');
+        $User->password = Hash::make($randomString);
         $User->userTypeId = 2;//Directora
         $User->schoolId = $school->id;
         $User->save();
         
+        $destinatario = $User->email;
+        $msg = "Ha sido invitad@ a colaborar en el sistema de Consejo Técnico 82. \n\n "  . 
+                
+        "Para ingresar al sistema ingrese a: " . env('APP_URL') . "\n" .
+        "Su usario es: " . $User->email . " \n" . 
+        "Contraseña temporal: " . $randomString;
+
+        $data = [];
+
+        try{
+            Mail::send(['email'=>'xxx'],$data, function ($message) use ($destinatario, $msg) {
+                $message->from('no-reply-ticket@consejotecnico82.com', 'Consejo Técnico 82');
+                $message->to($destinatario);
+                $message->subject('Bienvenido a Consejo Técnico 82');
+                $message->setBody($msg);
+            });
+            
+        } catch (\Throwable $th) {
+        }
+
+
 
         return redirect('schools')->with('success','Jardin de niños creado correctamente.');
     }
