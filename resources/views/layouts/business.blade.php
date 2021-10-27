@@ -27,16 +27,19 @@
    <!-- Google Font: Source Sans Pro -->
    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
    <link href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet">
+ 
+   <link rel="stylesheet" href="{{env('DEPLOY_URL')}}/dist/js/jquery.toast.min.css">
    
    <link rel="stylesheet" href="{{env('DEPLOY_URL')}}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
   <!-- jQuery -->
   <script src="{{env('DEPLOY_URL')}}/plugins/jquery/jquery.min.js"></script>
+  <script src="{{env('DEPLOY_URL')}}/dist/js/jquery.toast.min.js"></script>
 
+  @include('partials.alerts')
+
+  
 </head>
-@include('partials.scripts')
-@include('partials.alerts')
-@include('partials.head')
 
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
