@@ -34,7 +34,7 @@
                     <!-- form start -->
 
                     <form action="{{ url('/users/updatePassword') }}" method="post" >
-
+                        {{ csrf_field()}}
                         <br>
 
                         <div class="row">
