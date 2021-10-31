@@ -16,7 +16,7 @@ Route::get('/schools/add','App\Http\Controllers\SchoolController@create')->name(
 Route::post('/schools/store','App\Http\Controllers\SchoolController@store')->name('schools.store');
 Route::get('/schools/edit/{id}','App\Http\Controllers\SchoolController@edit')->name('schools.edit');
 Route::patch('/schools/edit/{id}','App\Http\Controllers\SchoolController@update')->name('schools.update');
-Route::delete('/schools/destroy/{id}','App\Http\Controllers\SchoolController@destroy')->name('schools.destroy');
+Route::get('/schools/destroy/{id}','App\Http\Controllers\SchoolController@destroy')->name('schools.destroy');
 
 //Formats
 Route::get('formats','App\Http\Controllers\FormatController@index')->name('formats.index');
@@ -27,7 +27,7 @@ Route::get('/formats/configure/{id}','App\Http\Controllers\FormatController@conf
 Route::post('/formats/configureStore/{id}','App\Http\Controllers\FormatController@configureStore')->name('formats.configureStore');
 
 Route::patch('/formats/edit/{id}','App\Http\Controllers\FormatController@update')->name('formats.update');
-Route::delete('/formats/destroy/{id}','App\Http\Controllers\FormatController@destroy')->name('formats.destroy');
+Route::get('/formats/destroy/{id}','App\Http\Controllers\FormatController@destroy')->name('formats.destroy');
 
 Route::get('/formats/answer/{id}','App\Http\Controllers\FormatController@answer')->name('formats.answer');
 Route::get('/formats/send/{id}','App\Http\Controllers\FormatController@send')->name('formats.send');
@@ -47,7 +47,7 @@ Route::get('/grades/add','App\Http\Controllers\GradeController@create')->name('g
 Route::post('/grades/store','App\Http\Controllers\GradeController@store')->name('grades.store');
 Route::get('/grades/edit/{id}','App\Http\Controllers\GradeController@edit')->name('grades.edit');
 Route::patch('/grades/edit/{id}','App\Http\Controllers\GradeController@update')->name('grades.update');
-Route::delete('/grades/destroy/{id}','App\Http\Controllers\GradeController@destroy')->name('grades.destroy');
+Route::get('/grades/destroy/{id}','App\Http\Controllers\GradeController@destroy')->name('grades.destroy');
 
 Auth::routes(
     ['register' => false
