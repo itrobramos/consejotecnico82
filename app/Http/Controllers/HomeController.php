@@ -42,8 +42,8 @@ class HomeController extends Controller
                                         ->where('beginDate', '<=', date('Y-m-d'))
                                         ->where('endDate', '>=', date('Y-m-d'))
                                         ->where('active', 1)
-                                        ->get();
-            
+                                        ->get()->unique('formatId');
+           
  
             $historicFormats = SchoolFormat::join('formats','formats.id', '=', 'schools_formats.formatId')
                                             ->where('ended',1)

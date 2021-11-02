@@ -185,7 +185,7 @@ class FormatController extends Controller
             $schools = School::orderBy('name','asc')->get();
 
             if(isset($request->schoolId) && $request->schoolId > 0){
-                $grades = Grade::where('schoolId', $request->schoolId)->select('grade')->distinct()->get();
+                $grades = Grade::where('schoolId', $request->schoolId)->orderBy('grade','asc')->select('grade')->distinct()->get();
                 $answers = Answer::where('formatId', $id)->where('schoolId', $request->schoolId)->get();
                 $selected = $request->schoolId;
 
@@ -359,8 +359,6 @@ class FormatController extends Controller
                              "grades" => $gradesarray
                             ];
 
-                dd($graphs);
-            
     
             }
         }
