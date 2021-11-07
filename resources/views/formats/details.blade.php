@@ -116,7 +116,7 @@
                                                             @endphp
     
                                                             @if($question->type == "number")
-                                                                <td><input readonly  type="text" class="form-control" style="width:100%;" value={{$answer}}></td>
+                                                                <td style="padding:0px;"><input readonly  type="text" class="form-control" style="width:100%;" value={{$answer}}></td>
                                                             @endif
                                                         @endforeach
                                                     @endforeach
@@ -140,9 +140,9 @@
                                                                 }
                                                             @endphp
                                                             @if($question->type=="number")
-                                                                <td><input readonly     type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                                <td style="padding:0px;"><input readonly type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
                                                             @else
-                                                                <td><input readonly  type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                                <td style="padding:0px;"><input readonly type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
                                                             @endif
                                                         @endforeach
                                                     @endforeach

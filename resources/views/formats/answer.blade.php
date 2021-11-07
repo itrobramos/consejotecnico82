@@ -75,9 +75,9 @@
                                                         }
                                                     @endphp
                                                     @if($question->type=="number")
-                                                        <td><input type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                        <td style="padding:0px;"><input type="number" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%; -moz-appearance: textfield; -webkit-appearance:none; margin:0;" value={{$answer}}></td>
                                                     @else
-                                                        <td><input type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%;" value={{$answer}}></td>
+                                                        <td style="padding:0px;"><input type="text" class="form-control" name="answer[{{$grade->id}}][{{$question->id}}]" style="width:100%; -moz-appearance: textfield; -webkit-appearance:none; margin:0;" value={{$answer}}></td>
                                                     @endif
                                                 @endforeach
                                             @endforeach
@@ -177,3 +177,16 @@
     </script>
 
 @endsection
+
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+</style>

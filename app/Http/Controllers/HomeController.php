@@ -75,6 +75,7 @@ class HomeController extends Controller
             $oldformats = SentFormat::join('formats','formats.id', '=', 'sent_formats.formatId')
                                         ->join('schools_formats','schools_formats.formatId', '=', 'formats.id')                                                                                            
                                         ->where('schools_formats.schoolId',Auth::user()->schoolId)
+                                        ->where('schools_formats.ended', 1)
                                         ->where('deleted_at', NULL)
                                         ->get();
 

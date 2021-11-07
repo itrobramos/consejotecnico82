@@ -201,7 +201,7 @@ class FormatController extends Controller
                 GROUP BY q.id, q.name, g.grade');
             }
             else{
-                $grades = Grade::select('grade')->distinct()->get();
+                $grades = Grade::orderBy('grade','asc')->select('grade')->distinct()->get();
                 $answers = Answer::where('formatId', $id)->get();   
                 $selected = 0; 
 
